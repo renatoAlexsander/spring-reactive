@@ -15,4 +15,8 @@ public class ProductService {
     public Mono<Product> save(Product product) {
         return productRepository.save(product);
     }
+
+    public Mono<Product> byId(String id) {
+        return productRepository.findById(id);
+    }
 }
