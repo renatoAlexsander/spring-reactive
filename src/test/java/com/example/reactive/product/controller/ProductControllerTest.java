@@ -16,6 +16,7 @@ import util.TestHelper;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +42,8 @@ class ProductControllerTest {
             .post(PRODUCT_API)
             .then()
             .assertThat().statusCode(201)
-            .assertThat().body(equalTo(TestHelper.convertObjectToJson(productResponse())));
+            .assertThat().body(equalTo(TestHelper.convertObjectToJson(productResponse())))
+            .assertThat().time(lessThan(1000L));
 
         verify(productService).save(productRequest());
     }
@@ -58,7 +60,8 @@ class ProductControllerTest {
             .get(PRODUCT_API + "/{id}")
             .then()
             .assertThat().statusCode(200)
-            .assertThat().body(equalTo(TestHelper.convertObjectToJson(productResponse())));
+            .assertThat().body(equalTo(TestHelper.convertObjectToJson(productResponse())))
+            .assertThat().time(lessThan(1300L));
 
         verify(productService).byId("1");
     }
